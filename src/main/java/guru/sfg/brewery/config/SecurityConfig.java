@@ -5,20 +5,23 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
+/**
+ * Created by jt on 6/13/20.
+ */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http
-        .authorizeRequests(auth -> {
-            auth.antMatchers("/", "/webjars/**", "/login").permitAll();
-        })
-        .authorizeRequests()
-        .anyRequest().authenticated()
-        .and()
-        .formLogin().and()
-        .httpBasic();
+    protected void configure(HttpSecurity http) throws Exception {
+                http
+                .authorizeRequests(authorize -> {
+                    authorize.antMatchers("/", "/webjars/**", "/login", "/resources/**").permitAll();
+                } )
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().and()
+                .httpBasic();
     }
 }
